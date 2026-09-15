@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Витрина</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  :root{
+    --фон:#F6F0E4;
+    --поверхность:#FFFCF6;
+    --край:#E7DBC6;
+    --край2:#F0E6D5;
+    --текст:#2B2118;
+    --тихий:#8B7B66;
+    --золото:#C09A2E;
+    --янтарь:#D9832A;
+    --зелень:#6F9440;
+    --тревога:#C25334;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{
+    margin:0;background:var(--фон);color:var(--текст);
+    font-family:Manrope,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-size:15px;line-height:1.45;padding:0 0 100px;
+    background-image:
+      radial-gradient(120% 55% at 50% -8%, rgba(192,154,46,.16), transparent 62%),
+      radial-gradient(70% 34% at 0% 4%, rgba(217,131,42,.10), transparent 70%);
+    background-repeat:no-repeat;
+  }
+  .холст{max-width:460px;margin:0 auto;padding:0 18px}
+
+  header{padding:32px 0 22px;text-align:center}
+  .каллиграфия{
+    font-family:"Great Vibes",cursive;font-size:46px;line-height:1;
+    color:var(--золото);margin:0 0 3px;
+  }
+  .капс{
+    font-weight:800;font-size:12px;letter-spacing:.34em;margin:0;
+    text-transform:uppercase;
+  }
+  .линия{
+    width:46px;height:1px;margin:15px auto 0;
+    background:linear-gradient(90deg,transparent,var(--золото),transparent);
+  }
+  .дата{
+    font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--тихий);margin-top:12px;
+  }
+
+  section{margin:0 0 24px}
+  .шапкаблока{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 11px}
+  h2{
+    font-size:11px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--тихий);margin:0;
+  }
+  .счётчик{font-size:11px;color:var(--тихий);font-variant-numeric:tabular-nums}
+
+  .карта{
+    background:var(--поверхность);border:1px solid var(--край);
+    border-radius:16px;padding:14px 16px;margin-bottom:8px;
+    box-shadow:0 1px 2px rgba(80,60,30,.04);
+  }
+
+  /* Дело: время слева, суть, кто делает и что с ним */
+  .дело{display:flex;gap:13px;align-items:flex-start}
+  .время{
+    flex:0 0 46px;font-size:12px;font-weight:800;color:var(--тихий);
+    font-variant-numeric:tabular-nums;padding-top:2px;letter-spacing:.02em;
+  }
+  .время.без{color:var(--край)}
+  .суть{flex:1;min-width:0}
+  .текст{font-weight:600}
+  .итог{color:var(--тихий);font-size:13px;margin-top:4px}
+  .строка{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;align-items:center}
+
+  .чип{
+    display:inline-flex;align-items:center;gap:5px;
+    font-size:11px;font-weight:800;letter-spacing:.02em;
+    padding:3px 9px;border-radius:999px;border:1px solid transparent;
+  }
+  .чип.веста{background:rgba(192,154,46,.14);color:#8A6E14;border-color:rgba(192,154,46,.32)}
+  .чип.арина{background:rgba(217,131,42,.13);color:#A75D14;border-color:rgba(217,131,42,.30)}
+  .чип.я    {background:rgba(43,33,24,.07);color:#5B4B39;border-color:rgba(43,33,24,.14)}
+
+  .статус{font-size:11px;font-weight:800;letter-spacing:.02em}
+  .статус .точка{
+    display:inline-block;width:6px;height:6px;border-radius:50%;
+    margin-right:5px;vertical-align:middle;
+  }
+  .с-готово   {color:var(--зелень)}   .с-готово   .точка{background:var(--зелень)}
+  .с-делаю    {color:var(--янтарь)}   .с-делаю    .точка{background:var(--янтарь);animation:пульс 1.6s infinite}
+  .с-ждёт     {color:var(--тревога)}  .с-ждёт     .точка{background:var(--тревога)}
+  .с-передано {color:var(--золото)}   .с-передано .точка{background:var(--золото)}
+  .с-новое    {color:var(--тихий)}    .с-новое    .точка{background:var(--тихий)}
+  @keyframes пульс{0%,100%{opacity:1}50%{opacity:.35}}
+
+  .идея{display:flex;gap:12px;align-items:flex-start;padding:12px 2px;border-bottom:1px solid var(--край2)}
+  .идея:last-child{border-bottom:0}
+  .точкаидеи{flex:0 0 auto;width:5px;height:5px;border-radius:50%;background:var(--золото);margin-top:8px}
+  .идеядата{flex:0 0 auto;font-size:11px;color:var(--тихий);font-variant-numeric:tabular-nums;margin-top:1px}
+
+  .хвост{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:11px 2px;border-bottom:1px solid var(--край2)}
+  .хвост:last-child{border-bottom:0}
+  .дней{flex:0 0 auto;font-size:12px;font-weight:800;color:var(--янтарь);font-variant-numeric:tabular-nums}
+
+  .проекты{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .проект{background:var(--поверхность);border:1px solid var(--край);border-radius:14px;padding:13px 14px}
+  .имя{font-weight:800;font-size:14px}
+  .статуспроекта{color:var(--тихий);font-size:12px;margin-top:3px;line-height:1.35}
+  .огонёк{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:7px;vertical-align:middle}
+  .растёт .огонёк{background:var(--зелень)}
+  .готов  .огонёк{background:var(--золото)}
+  .ждёт   .огонёк{background:var(--янтарь)}
+  .стоит  .огонёк{background:var(--тихий)}
+
+  .подвал{position:fixed;left:0;right:0;bottom:0;padding:14px 18px 22px;
+          background:linear-gradient(180deg,rgba(246,240,228,0),var(--фон) 34%)}
+  .кнопка{
+    display:block;width:100%;max-width:424px;margin:0 auto;border:0;border-radius:15px;
+    padding:16px;background:linear-gradient(135deg,var(--янтарь),var(--золото));
+    color:#fff;font-family:inherit;font-weight:800;font-size:15px;cursor:pointer;
+    box-shadow:0 4px 14px rgba(192,122,40,.28);
+  }
+  .кнопка:active{transform:translateY(1px)}
+
+  .пусто{color:var(--тихий);font-size:13px;padding:10px 2px}
+  .ошибка{border:1px solid rgba(194,83,52,.4);background:var(--поверхность);
+          border-radius:14px;padding:14px 16px;color:var(--тихий);font-size:13px}
+</style>
+</head>
+<body>
+<div class="холст">
+  <header>
+    <p class="каллиграфия">Витрина</p>
+    <p class="капс" id="капс">Динара</p>
+    <div class="линия"></div>
+    <p class="дата" id="обновлено">загружаю…</p>
+  </header>
+  <main id="экран"></main>
+</div>
+
+<div class="подвал">
+  <button class="кнопка" id="действие">Кинуть дело Весте</button>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+  if (tg) { tg.ready(); tg.expand(); try { tg.setHeaderColor("#F6F0E4"); } catch(e){} }
+
+  var экран = document.getElementById("экран");
+
+  function экранируй(s){
+    return String(s == null ? "" : s)
+      .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+
+  function дней(n){
+    var а = Math.abs(n) % 100, б = а % 10;
+    if (а > 10 && а < 20) return n + " дней";
+    if (б > 1 && б < 5)   return n + " дня";
+    if (б === 1)          return n + " день";
+    return n + " дней";
+  }
+
+  // Статус → класс. Держим здесь, чтобы Веста могла писать статусы словами.
+  function классСтатуса(с){
+    с = (с || "новое").toLowerCase();
+    if (с.indexOf("готов") === 0)  return "с-готово";
+    if (с.indexOf("делаю") === 0)  return "с-делаю";
+    if (с.indexOf("ждёт") === 0 || с.indexOf("ждет") === 0) return "с-ждёт";
+    if (с.indexOf("передан") === 0) return "с-передано";
+    return "с-новое";
+  }
+
+  function классКого(к){
+    к = (к || "я").toLowerCase();
+    if (к === "веста" || к === "арина") return к;
+    return "я";
+  }
+
+  function подписьКого(к){
+    к = (к || "я").toLowerCase();
+    if (к === "веста") return "@веста";
+    if (к === "арина") return "@арина";
+    return "я сама";
+  }
+
+  function блок(заголовок, счёт, тело){
+    return '<section><div class="шапкаблока"><h2>' + экранируй(заголовок) + '</h2>' +
+           (счёт ? '<span class="счётчик">' + экранируй(счёт) + '</span>' : '') +
+           '</div>' + тело + '</section>';
+  }
+
+  function рисуй(д){
+    document.getElementById("обновлено").textContent = д.обновлено || "";
+    if (д.приветствие) document.getElementById("капс").textContent = д.приветствие;
+
+    var html = "";
+
+    var дела = д.дела || [];
+    html += блок("Сегодня", дела.length || "", дела.length
+      ? дела.map(function(п){
+          return '<div class="карта"><div class="дело">' +
+            '<div class="время' + (п.время ? '' : ' без') + '">' +
+              экранируй(п.время || "—") + '</div>' +
+            '<div class="суть">' +
+              '<div class="текст">' + экранируй(п.текст) + '</div>' +
+              (п.итог ? '<div class="итог">' + экранируй(п.итог) + '</div>' : '') +
+              '<div class="строка">' +
+                '<span class="чип ' + классКого(п.кому) + '">' + подписьКого(п.кому) + '</span>' +
+                '<span class="статус ' + классСтатуса(п.статус) + '">' +
+                  '<span class="точка"></span>' + экранируй(п.статус || "новое") +
+                '</span>' +
+              '</div>' +
+            '</div></div></div>';
+        }).join("")
+      : '<div class="пусто">На сегодня пусто. Хороший день.</div>');
+
+    var идеи = д.идеи || [];
+    html += блок("Копилка", идеи.length || "", идеи.length
+      ? '<div class="карта">' + идеи.map(function(и){
+          return '<div class="идея"><span class="точкаидеи"></span>' +
+                 '<div style="flex:1">' + экранируй(и.текст) + '</div>' +
+                 '<div class="идеядата">' + экранируй(и.дата || "") + '</div></div>';
+        }).join("") + '</div>'
+      : '<div class="пусто">Пока ни одной. Скажи Весте — запишет.</div>');
+
+    var хвосты = д.хвосты || [];
+    html += блок("Висит", хвосты.length || "", хвосты.length
+      ? '<div class="карта">' + хвосты.map(function(х){
+          return '<div class="хвост"><div>' + экранируй(х.что) + '</div>' +
+                 '<div class="дней">' + дней(х.дней || 0) + '</div></div>';
+        }).join("") + '</div>'
+      : '<div class="пусто">Ничего не висит.</div>');
+
+    var проекты = д.проекты || [];
+    if (проекты.length) {
+      html += блок("Проекты", проекты.length,
+        '<div class="проекты">' + проекты.map(function(п){
+          return '<div class="проект ' + экранируй(п.состояние || "") + '">' +
+                 '<div class="имя"><span class="огонёк"></span>' + экранируй(п.имя) + '</div>' +
+                 '<div class="статуспроекта">' + экранируй(п.статус || "") + '</div></div>';
+        }).join("") + '</div>');
+    }
+
+    экран.innerHTML = html;
+  }
+
+  // Антикеш: без параметра Telegram и GitHub Pages отдают вчерашний data.json.
+  fetch("data.json?v=" + Date.now(), { cache: "no-store" })
+    .then(function(r){
+      if (!r.ok) throw new Error("не отдался data.json: " + r.status);
+      return r.json();
+    })
+    .then(рисуй)
+    .catch(function(e){
+      document.getElementById("обновлено").textContent = "";
+      экран.innerHTML = '<div class="ошибка">Не смогла загрузить данные.<br>' +
+                        экранируй(e.message) + '</div>';
+    });
+
+  document.getElementById("действие").addEventListener("click", function(){
+    if (tg) {
+      try { tg.HapticFeedback.impactOccurred("medium"); } catch(e){}
+      tg.close();   // закрываем приложение — Динара оказывается в чате с Вестой
+    } else {
+      alert("Открой это внутри Telegram — кнопка вернёт тебя в чат с Вестой.");
+    }
+  });
+})();
+</script>
+</body>
+</html>
